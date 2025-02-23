@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const Review = require("../models/reviewModel");
 
 const AddReview = async (req, res) => {
   const { name, profile_image, is_verified, rating, comment, review_date } =
