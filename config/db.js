@@ -6,7 +6,9 @@ const connectDB = async () => {
     process.exit(1);
   }
   try {
-    const conn = await moongose.connect(process.env.SKYLINE_VISTA_MONGO_URI);
+    const conn = await moongose.connect(process.env.SKYLINE_VISTA_MONGO_URI, {
+      dbName: process.env.SKYLINE_VISTA_MONGO_DB_NAME,
+    });
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (err) {
     console.error(err);
