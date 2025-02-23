@@ -63,7 +63,25 @@ const GetRooms = async (req, res) => {
   }
 };
 
+const GetRoomById = async (req, res) => {
+  try {
+    const room = await Room.findById(req.params.id);
+    res.status(200).send({
+      success: true,
+      message: "Room fetched successfully",
+      data: room,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in fetching room",
+        error: err,
+      });
+  }
+};
+
 module.exports = {
   AddRoom,
   GetRooms,
+  GetRoomById,
 };
