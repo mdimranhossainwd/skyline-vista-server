@@ -45,6 +45,25 @@ const AddRoom = async (req, res) => {
   }
 };
 
+// This function is used to fetch all the rooms from the database.
+const GetRooms = async (req, res) => {
+  try {
+    const rooms = await Room.find();
+    res.status(200).send({
+      success: true,
+      message: "Rooms fetched successfully",
+      data: rooms,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in fetching rooms",
+        error: err,
+      });
+  }
+};
+
 module.exports = {
   AddRoom,
+  GetRooms,
 };
