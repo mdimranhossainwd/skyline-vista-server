@@ -12,8 +12,14 @@ const AddUser = async (req, res) => {
     });
     await user.save();
     res.status(200).send({
+      success: true,
       message: "User added successfully",
-      user,
+      data: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
     });
   } catch (error) {
     res.status(400).send({
