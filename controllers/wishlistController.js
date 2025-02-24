@@ -24,4 +24,19 @@ const AddToWishlist = async (req, res) => {
   }
 };
 
-module.exports = { AddToWishlist };
+const userWishlistByEmail = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const wishlist = await Wishlist.find({ email });
+    res.status(200).send({
+      success: true,
+      message: "Wishlist fetched successfully",
+      data: wishlist,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(400).send({ message: "Error fetching wishlist", error: error });
+  }
+};
+
+module.exports = { AddToWishlist, userWishlistByEmail };
