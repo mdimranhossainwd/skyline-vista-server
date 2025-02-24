@@ -12,13 +12,15 @@ const AddToWishlist = async (req, res) => {
       room,
     });
     await wishlist.save();
-    res
-      .status(200)
-      .send({ success: true, message: "Room added to wishlist", wishlist });
+    res.status(200).send({
+      success: true,
+      message: "Room added to wishlist",
+      wishlist,
+    });
   } catch (error) {
     console.log("Error", error);
     res.status(400).send({ message: "Error adding to wishlist", error: error });
   }
 };
 
-module.exports = { AddToWishlist };
+module.exports = { AddToWishlist, GetWishlistToUser };

@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
+const Room = require("./roomModel");
 
 const wishlistSchema = new mongoose.Schema({
   room: {
     type: Object,
-    ref: "Room",
     required: true,
   },
 });
