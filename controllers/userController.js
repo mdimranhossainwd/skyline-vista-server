@@ -29,4 +29,35 @@ const AddUser = async (req, res) => {
   }
 };
 
-module.exports = { AddUser };
+const loginUser = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+    if (user.password !== password) {
+      return res.status(400).send({
+        message: "Invalid password",
+      });
+    }
+    res.status(200).send({
+      message: "User logged in successfully",
+      data: {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+        image: user.image,
+      },
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in logging in",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { AddUser, loginUser };
