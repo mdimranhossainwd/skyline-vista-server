@@ -6,6 +6,10 @@ const wishlistSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  email: {
+    type: String,
+    required: true,
+  },
 });
 
 const Wishlist = new mongoose.model("Wishlist", wishlistSchema);

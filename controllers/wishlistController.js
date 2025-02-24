@@ -2,7 +2,7 @@ const Wishlist = require("../models/wishlistModel");
 const Room = require("../models/roomModel");
 
 const AddToWishlist = async (req, res) => {
-  const { rooms_id } = req.body;
+  const { rooms_id, email } = req.body;
   try {
     const room = await Room.findById(rooms_id);
     if (!room) {
@@ -10,6 +10,7 @@ const AddToWishlist = async (req, res) => {
     }
     const wishlist = new Wishlist({
       room,
+      email,
     });
     await wishlist.save();
     res.status(200).send({
@@ -23,4 +24,4 @@ const AddToWishlist = async (req, res) => {
   }
 };
 
-module.exports = { AddToWishlist, GetWishlistToUser };
+module.exports = { AddToWishlist };
