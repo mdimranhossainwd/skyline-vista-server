@@ -59,4 +59,23 @@ const deleteWishlistRoom = async (req, res) => {
   }
 };
 
-module.exports = { AddToWishlist, userWishlistByEmail, deleteWishlistRoom };
+const getAllWishlist = async (req, res) => {
+  try {
+    const wishlist = await Wishlist.find();
+    res.status(200).send({
+      success: true,
+      message: "Wishlist fetched successfully",
+      data: wishlist,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(400).send({ message: "Error fetching wishlist", error: error });
+  }
+};
+
+module.exports = {
+  AddToWishlist,
+  userWishlistByEmail,
+  deleteWishlistRoom,
+  getAllWishlist,
+};
