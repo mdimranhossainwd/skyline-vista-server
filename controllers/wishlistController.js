@@ -39,4 +39,24 @@ const userWishlistByEmail = async (req, res) => {
   }
 };
 
-module.exports = { AddToWishlist, userWishlistByEmail };
+const deleteWishlistRoom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const wishlist = await Wishlist.findOneAndDelete(id);
+    if (!wishlist) {
+      return res.status(404).send({ message: "Room not found in wishlist" });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Room removed from wishlist Successfully",
+      wishlist,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    res
+      .status(400)
+      .send({ message: "Error removing room from wishlist", error: error });
+  }
+};
+
+module.exports = { AddToWishlist, userWishlistByEmail, deleteWishlistRoom };
