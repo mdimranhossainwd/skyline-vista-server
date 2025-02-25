@@ -1,12 +1,11 @@
 const User = require("../models/userModel");
 
 const AddUser = async (req, res) => {
-  const { name, email, password, role, image } = req.body;
+  const { name, email, role, image } = req.body;
   try {
     const user = new User({
       name,
       email,
-      password,
       role,
       image,
     });
