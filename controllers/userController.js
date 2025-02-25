@@ -83,4 +83,33 @@ const getUserRole = async (req, res) => {
   }
 };
 
-module.exports = { AddUser, loginUser, getUserRole };
+const updateUserRole = async (req, res) => {
+  const { id } = req.params;
+  const { role } = req.body;
+  try {
+    const user = await User.findByIdAndUpdate(
+      id,
+      { role },
+      { new: true }
+    ).select("role");
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+
+    res.status(200).send({
+      message: "User role updated successfully",
+      data: {
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in updating user role",
+      error: error.message,
+    });
+  }
+};
+
+module.exports = { AddUser, loginUser, getUserRole, updateUserRole };
