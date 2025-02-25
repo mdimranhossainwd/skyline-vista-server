@@ -131,4 +131,10 @@ const deleteUser = async (req, res) => {
     });
   }
 };
-module.exports = { AddUser, loginUser, getUserRole, updateUserRole };
+module.exports = {
+  AddUser,
+  loginUser,
+  getUserRole,
+  updateUserRole,
+  deleteUser,
+};
