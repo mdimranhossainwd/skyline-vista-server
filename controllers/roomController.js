@@ -80,8 +80,28 @@ const GetRoomById = async (req, res) => {
   }
 };
 
+const UpdateRoom = async (req, res) => {
+  try {
+    const room = await Room.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).send({
+      success: true,
+      message: "Room updated successfully",
+      data: room,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in updating room",
+        error: err,
+      });
+  }
+};
+
 module.exports = {
   AddRoom,
   GetRooms,
   GetRoomById,
+  UpdateRoom,
 };
