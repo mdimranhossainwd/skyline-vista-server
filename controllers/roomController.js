@@ -101,6 +101,7 @@ const UpdateRoom = async (req, res) => {
   }
 };
 
+// ----------- This function is used to update the status of a room (ADMIN-----------------).
 const UpdateRoomStatus = async (req, res) => {
   try {
     const room = await Room.findByIdAndUpdate(
