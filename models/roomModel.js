@@ -56,7 +56,8 @@ const roomSchema = new mongoose.Schema(
     images: { type: [String], default: [] },
 
     safety_features: { type: [String], default: [] },
-    status: { type: String, default: "available" },
+    room_status: { type: String, default: "available" },
+    status: { type: String, default: "pending" },
     created_at: { type: Date, default: Date.now },
     updated_at: { type: Date, default: Date.now },
   },

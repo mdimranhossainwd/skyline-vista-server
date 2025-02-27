@@ -13,7 +13,7 @@ const AddRoom = async (req, res) => {
     amenities,
     images,
     safety_features,
-    status,
+    room_status,
   } = req.body;
 
   try {
@@ -28,7 +28,7 @@ const AddRoom = async (req, res) => {
       amenities,
       images,
       safety_features,
-      status,
+      room_status,
     });
     await newRoom.save();
     res.status(200).send({
