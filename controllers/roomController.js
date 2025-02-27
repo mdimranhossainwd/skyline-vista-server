@@ -101,9 +101,33 @@ const UpdateRoom = async (req, res) => {
   }
 };
 
+const UpdateRoomStatus = async (req, res) => {
+  try {
+    const room = await Room.findByIdAndUpdate(
+      req.params.id,
+      { status: req.body.status },
+      {
+        new: true,
+      }
+    );
+    res.status(200).send({
+      success: true,
+      message: "Room status updated successfully",
+      data: room,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in updating room status",
+        error: err,
+      });
+  }
+};
+
 module.exports = {
   AddRoom,
   GetRooms,
   GetRoomById,
   UpdateRoom,
+  UpdateRoomStatus,
 };
