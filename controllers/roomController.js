@@ -125,10 +125,29 @@ const UpdateRoomStatus = async (req, res) => {
   }
 };
 
+// This function is used to delete a room from the database. (AGENT || ADMIN)
+const DeleteRoom = async (req, res) => {
+  try {
+    const room = await Room.findByIdAndDelete(req.params.id);
+    res.status(200).send({
+      success: true,
+      message: "Room deleted successfully",
+      data: room,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in deleting room",
+        error: err,
+      });
+  }
+};
+
 module.exports = {
   AddRoom,
   GetRooms,
   GetRoomById,
   UpdateRoom,
   UpdateRoomStatus,
+  DeleteRoom,
 };
