@@ -51,4 +51,15 @@ const AddToPayment = async (req, res) => {
   }
 };
 
-module.exports = { AddToPayment, StripeAddPayment };
+const GetRoomPayments = async (req, res) => {
+  const { email } = req.query;
+  try {
+    const payments = await Payment.find({ email });
+    res.status(200).send({ success: true, payments });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(400).send({ message: "Error fetching payments", error: error });
+  }
+};
+
+module.exports = { AddToPayment, StripeAddPayment, GetRoomPayments };
