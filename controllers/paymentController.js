@@ -35,7 +35,7 @@ const AddToPayment = async (req, res) => {
       room: wishlist.room,
       email: wishlist.email,
       paymentId: req.body.paymentId,
-      amount: req.body.amount,
+      amount: wishlist?.room?.amount,
       status: req.body.status,
       date: new Date(),
     });
