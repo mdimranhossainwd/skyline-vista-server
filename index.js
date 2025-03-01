@@ -7,6 +7,7 @@ const reviewRoutes = require("./routes/reviewRoutes");
 const wishlistRoute = require("./routes/wishlistRoute");
 const userRoute = require("./routes/userRoute");
 const paymentRoute = require("./routes/paymentRoute");
+const offerRoute = require("./routes/offerRoute");
 
 const app = express();
 dotenv.config();
@@ -18,6 +19,7 @@ app.use("/api/rooms", reviewRoutes);
 app.use("/api/rooms", wishlistRoute);
 app.use("/api/rooms", userRoute);
 app.use("/api/rooms", paymentRoute);
+app.use("/api/rooms", offerRoute);
 
 app.listen(process.env.SKYLINE_VISTA_PORT, () => {
   console.log(`Server running on port ${process.env.SKYLINE_VISTA_PORT}`);
