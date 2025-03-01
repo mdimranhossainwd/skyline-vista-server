@@ -45,4 +45,30 @@ const GetAllOfferRoom = async (req, res) => {
   }
 };
 
-module.exports = { AddToOffer, GetAllOfferRoom };
+const UpdateOfferStatus = async (req, res) => {
+  try {
+    const offer = await Offer.findByIdAndUpdate(
+      req.params.id,
+      { order_Status: req.body.order_Status },
+      {
+        new: true,
+      }
+    );
+    if (!offer) {
+      return res.status(404).send({ message: "Offer not found" });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Offer fetched successfully",
+      data: offer,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in fetching offer",
+        error: err,
+      });
+  }
+};
+
+module.exports = { AddToOffer, GetAllOfferRoom, UpdateOfferStatus };
