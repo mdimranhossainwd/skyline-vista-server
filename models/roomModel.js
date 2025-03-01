@@ -54,7 +54,7 @@ const roomSchema = new mongoose.Schema(
 
     amenities: { type: [String], default: [] },
     images: { type: [String], default: [] },
-
+    amount: { type: Number, required: true },
     safety_features: { type: [String], default: [] },
     room_status: { type: String, default: "available" },
     status: { type: String, default: "pending" },
