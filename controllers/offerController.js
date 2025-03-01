@@ -28,4 +28,21 @@ const AddToOffer = async (req, res) => {
   }
 };
 
-module.exports = { AddToOffer };
+const GetAllOfferRoom = async (req, res) => {
+  try {
+    const offers = await Offer.find();
+    res.status(200).send({
+      success: true,
+      message: "Offers fetched successfully",
+      data: offers,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in fetching offers",
+        error: err,
+      });
+  }
+};
+
+module.exports = { AddToOffer, GetAllOfferRoom };
