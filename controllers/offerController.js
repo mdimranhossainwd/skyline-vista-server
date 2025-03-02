@@ -49,7 +49,7 @@ const UpdateOfferStatus = async (req, res) => {
   try {
     const offer = await Offer.findByIdAndUpdate(
       req.params.id,
-      { order_Status: req.body.order_Status },
+      { room_status: req.body.room_status },
       {
         new: true,
       }
