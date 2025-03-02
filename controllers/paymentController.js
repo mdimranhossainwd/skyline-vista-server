@@ -63,6 +63,9 @@ const AddToPayment = async (req, res) => {
         date: new Date(),
       });
       await payment.save();
+      if (req.body.status === "successed") {
+        await Offer.findByIdAndUpdate(offer_id, { room_status: "Sold" });
+      }
       res.status(200).send({
         success: true,
         message: "Payment added successfully",
@@ -88,4 +91,20 @@ const GetRoomPayments = async (req, res) => {
   }
 };
 
-module.exports = { AddToPayment, StripeAddPayment, GetRoomPayments };
+const GetRoomPaymentsCompleted = async (req, res) => {
+  const { room_status } = req.query;
+  try {
+    const payments = await Payment.find({ room_status: "Sold" });
+    res.status(200).send({ success: true, payments });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(400).send({ message: "Error fetching payments", error: error });
+  }
+};
+
+module.exports = {
+  AddToPayment,
+  StripeAddPayment,
+  GetRoomPayments,
+  GetRoomPaymentsCompleted,
+};

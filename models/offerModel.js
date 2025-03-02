@@ -4,7 +4,7 @@ const offerSchema = new mongoose.Schema({
   offer: {
     type: Object,
   },
-  order_Status: {
+  room_status: {
     type: String,
     default: "Pending",
   },
