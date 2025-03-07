@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 const connectDB = require("./config/db");
 const roomRoutes = require("./routes/roomRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
@@ -9,10 +10,16 @@ const userRoute = require("./routes/userRoute");
 const paymentRoute = require("./routes/paymentRoute");
 const offerRoute = require("./routes/offerRoute");
 
+const coreOptions = {
+  origin: ["http://localhost:5173"],
+  credentials: true,
+  optionSuccessStatus: 200,
+};
 const app = express();
 dotenv.config();
 connectDB();
 app.use(express.json());
+app.use(cors(coreOptions));
 
 app.use("/api/rooms", roomRoutes);
 app.use("/api/rooms", reviewRoutes);
