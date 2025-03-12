@@ -2,6 +2,7 @@ require("dotenv").config();
 const Payment = require("../models/paymentModel");
 const Wishlist = require("../models/wishlistModel");
 const Offer = require("../models/offerModel");
+const Room = require("../models/roomModel");
 const stripe = require("stripe")(process.env.SKYLINE_VISTA_STRIPE_SECRET_KEY);
 
 const StripeAddPayment = async (req, res) => {
@@ -26,57 +27,35 @@ const StripeAddPayment = async (req, res) => {
 };
 
 const AddToPayment = async (req, res) => {
-  const { room_id, offer_id } = req.body;
   try {
-    let wishlist = await Wishlist.findById(room_id);
-    if (!wishlist) {
-      return res.status(404).send({ message: "Room not found" });
-    }
-    if (wishlist) {
-      const payment = new Payment({
-        room: wishlist.room,
-        email: wishlist.email,
-        paymentId: req.body.paymentId,
-        amount: wishlist?.room?.amount,
-        status: req.body.status,
-        date: new Date(),
-      });
-      await payment.save();
-      res.status(200).send({
-        success: true,
-        message: "Payment added successfully",
-        payment,
-      });
+    const { roomId, email, name, transID, totalPrice } = req.body;
+
+    // Find the room details
+    const room = await Room.findById(roomId);
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
     }
 
-    let offer = await Offer.findById(offer_id);
-    if (!offer) {
-      return res.status(404).send({ message: "Offer not found" });
-    }
-    if (offer) {
-      const payment = new Payment({
-        offer: offer.offer,
-        email: offer.email,
-        paymentId: req.body.paymentId,
-        amount: offer?.amount,
-        status: req.body.status,
-        date: new Date(),
-      });
-      await payment.save();
-      if (req.body.status === "successed") {
-        await Offer.findByIdAndUpdate(offer_id, { room_status: "Sold" });
-      }
-      res.status(200).send({
-        success: true,
-        message: "Payment added successfully",
-        payment,
-      });
-    }
+    // Create a new payment entry
+    const newPayment = new Payment({
+      room,
+      email,
+      name,
+      transID,
+      totalPrice,
+      paymentDate: new Date(),
+    });
 
-    res.status(404).send({ message: "Room or Offer not found" });
+    await newPayment.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Payment successful, room booked!",
+      data: newPayment,
+    });
   } catch (error) {
-    console.log("Error", error);
-    res.status(400).send({ message: "Error adding payment", error: error });
+    console.error("Error adding payment:", error);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
