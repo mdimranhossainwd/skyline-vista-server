@@ -7,11 +7,13 @@ const {
   getUserRole,
   updateUserRole,
   deleteUser,
+  logoutUser,
 } = require("../controllers/userController");
 const authMiddleware = require("../middlewares/authMiddlewares");
 
 router.post("/add-user", AddUser);
 router.post("/login", loginUser);
+router.get("/log-out", logoutUser);
 router.post("/jwt", authMiddleware);
 router.get("/get-user/:email", getUserRole);
 router.patch("/update-user/:id", updateUserRole);

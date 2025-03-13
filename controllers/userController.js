@@ -90,6 +90,19 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = (req, res) => {
+  res.clearCookie("auth-token", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "Strict",
+    maxAge: 0, // Expire the cookie immediately
+  });
+
+  res.status(200).send({
+    message: "User logged out successfully",
+  });
+};
+
 const getUserRole = async (req, res) => {
   const { email } = req.params;
   try {
@@ -167,4 +180,5 @@ module.exports = {
   getUserRole,
   updateUserRole,
   deleteUser,
+  logoutUser,
 };
