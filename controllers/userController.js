@@ -1,3 +1,5 @@
+const express = require("express");
+const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const AddUser = async (req, res) => {
@@ -10,6 +12,19 @@ const AddUser = async (req, res) => {
       image,
     });
     await user.save();
+    // const token = jwt.sign(
+    //   { id: user._id },
+    //   process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
+    //   {
+    //     expiresIn: "1d",
+    //   }
+    // );
+    // res.cookie("auth-token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production", // Secure in production
+    //   sameSite: "Strict",
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    // });
     res.status(200).send({
       success: true,
       message: "User added successfully",
@@ -42,6 +57,21 @@ const loginUser = async (req, res) => {
         message: "Invalid password",
       });
     }
+
+    // const token = jwt.sign(
+    //   { id: user._id },
+    //   process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
+    //   {
+    //     expiresIn: "1d",
+    //   }
+    // );
+    // res.cookie("auth-token", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV === "production", // Secure in production
+    //   sameSite: "Strict",
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    // });
+
     res.status(200).send({
       message: "User logged in successfully",
       data: {
