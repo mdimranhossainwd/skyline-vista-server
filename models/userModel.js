@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
     },
     role: { type: String, default: "user" },
-    image: { type: String },
+    photo: { type: String },
   },
   { timestamps: true }
 );

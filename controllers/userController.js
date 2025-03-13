@@ -1,30 +1,29 @@
-const express = require("express");
 const jwt = require("jsonwebtoken");
 const User = require("../models/userModel");
 
 const AddUser = async (req, res) => {
-  const { name, email, role, image } = req.body;
+  const { name, email, role, photo } = req.body;
   try {
     const user = new User({
       name,
       email,
       role,
-      image,
+      photo,
     });
     await user.save();
-    // const token = jwt.sign(
-    //   { id: user._id },
-    //   process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
-    //   {
-    //     expiresIn: "1d",
-    //   }
-    // );
-    // res.cookie("auth-token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production", // Secure in production
-    //   sameSite: "Strict",
-    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
-    // });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+    res.cookie("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure in production
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
     res.status(200).send({
       success: true,
       message: "User added successfully",
@@ -32,7 +31,8 @@ const AddUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        image: user.image,
+        photo: user.photoURL,
+        token,
       },
     });
   } catch (error) {
@@ -58,19 +58,19 @@ const loginUser = async (req, res) => {
       });
     }
 
-    // const token = jwt.sign(
-    //   { id: user._id },
-    //   process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
-    //   {
-    //     expiresIn: "1d",
-    //   }
-    // );
-    // res.cookie("auth-token", token, {
-    //   httpOnly: true,
-    //   secure: process.env.NODE_ENV === "production", // Secure in production
-    //   sameSite: "Strict",
-    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
-    // });
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.SKYLINE_VISTA_JWT_TOKEN_SECRET,
+      {
+        expiresIn: "1d",
+      }
+    );
+    res.cookie("auth-token", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production", // Secure in production
+      sameSite: "Strict",
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+    });
 
     res.status(200).send({
       message: "User logged in successfully",
@@ -78,7 +78,8 @@ const loginUser = async (req, res) => {
         name: user.name,
         email: user.email,
         role: user.role,
-        image: user.image,
+        photo: user.photoURL,
+        token,
       },
     });
   } catch (error) {
