@@ -22,7 +22,7 @@ dotenv.config();
 connectDB();
 app.use(express.json());
 app.use(cors(coreOptions));
-// app.use(cookieParser());
+app.use(cookieParser());
 
 app.use("/api/rooms", roomRoutes);
 app.use("/api/rooms", reviewRoutes);
