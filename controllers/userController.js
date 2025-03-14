@@ -126,6 +126,22 @@ const getUserRole = async (req, res) => {
   }
 };
 
+const getAllUser = async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    res.status(200).send({
+      success: true,
+      message: "Rooms fetched successfully",
+      data: allUsers,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in getting All user",
+      error: error.message,
+    });
+  }
+};
+
 const updateUserRole = async (req, res) => {
   const { id } = req.params;
   const { role } = req.body;
@@ -177,6 +193,7 @@ const deleteUser = async (req, res) => {
 module.exports = {
   AddUser,
   loginUser,
+  getAllUser,
   getUserRole,
   updateUserRole,
   deleteUser,
