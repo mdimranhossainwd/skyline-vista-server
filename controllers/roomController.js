@@ -13,6 +13,7 @@ const AddRoom = async (req, res) => {
     amenities,
     images,
     safety_features,
+    amount,
     room_status,
     status,
   } = req.body;
@@ -27,6 +28,7 @@ const AddRoom = async (req, res) => {
       pricing,
       availability,
       amenities,
+      amount,
       images,
       safety_features,
       room_status,
