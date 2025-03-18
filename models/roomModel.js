@@ -58,8 +58,7 @@ const roomSchema = new mongoose.Schema(
     safety_features: { type: [String], default: [] },
     room_status: { type: String, default: "available" },
     status: { type: String, default: "pending" },
-    created_at: { type: Date, default: Date.now },
-    updated_at: { type: Date, default: Date.now },
+    email: { type: String },
   },
   { timestamps: true }
 );
