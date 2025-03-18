@@ -18,7 +18,6 @@ const AddRoom = async (req, res) => {
     status,
     email,
   } = req.body;
-
   try {
     const newRoom = new Room({
       title,
