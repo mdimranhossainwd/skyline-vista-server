@@ -85,6 +85,27 @@ const GetRoomById = async (req, res) => {
   }
 };
 
+const GetRoomByUserEmail = async (req, res) => {
+  const email = req.query.email;
+  try {
+    if (!email) {
+      return res.status(400).json({ message: "Email is required" });
+    }
+    const usersRoom = await Room.find({ email: email });
+    res.status(200).send({
+      success: true,
+      message: "Rooms retrieved successfully",
+      data: usersRoom,
+    });
+  } catch (err) {
+    console.log("Error", err);
+    res.status(401).send({
+      message: "Something is Wrong",
+      error: err,
+    });
+  }
+};
+
 const UpdateRoom = async (req, res) => {
   try {
     const room = await Room.findByIdAndUpdate(req.params.id, req.body, {
@@ -153,4 +174,5 @@ module.exports = {
   UpdateRoom,
   UpdateRoomStatus,
   DeleteRoom,
+  GetRoomByUserEmail,
 };
