@@ -47,4 +47,28 @@ const GetReviews = async (req, res) => {
   }
 };
 
-module.exports = { AddReview, GetReviews };
+// Delete Review Function for deleting a review from the database
+const DeleteReview = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const deletedReview = await Review.findByIdAndDelete(id);
+    if (!deletedReview) {
+      return res.status(404).send({
+        message: "Review not found",
+      });
+    }
+    res.status(200).send({
+      success: true,
+      message: "Review deleted successfully",
+      data: deletedReview,
+    });
+  } catch (err) {
+    console.log("Error:", err),
+      res.status(400).send({
+        message: "Error in deleting review",
+        error: err,
+      });
+  }
+};
+
+module.exports = { AddReview, GetReviews, DeleteReview };
