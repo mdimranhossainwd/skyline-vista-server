@@ -7,7 +7,6 @@ const reviewSchema = new mongoose.Schema({
   },
   profile_image: {
     type: String,
-    required: true,
   },
   is_verified: {
     type: Boolean,
