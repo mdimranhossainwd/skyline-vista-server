@@ -9,6 +9,7 @@ const {
   deleteUser,
   logoutUser,
   getAllUser,
+  updateUserInfo,
 } = require("../controllers/userController");
 const authMiddleware = require("../middlewares/authMiddlewares");
 
@@ -19,5 +20,6 @@ router.get("/all-users", getAllUser);
 router.post("/jwt", authMiddleware);
 router.get("/get-user/:email", getUserRole);
 router.patch("/update-user/:id", updateUserRole);
+router.put("/update-user-info/:id", updateUserInfo);
 router.delete("/delete-user/:id", deleteUser);
 module.exports = router;
