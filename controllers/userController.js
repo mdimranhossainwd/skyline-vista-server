@@ -190,6 +190,30 @@ const deleteUser = async (req, res) => {
     });
   }
 };
+
+const updateUserInfo = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await User.findByIdAndUpdate(id, req.body, { new: true });
+    if (!user) {
+      return res.status(404).send({
+        message: "User not found",
+      });
+    }
+    res.status(200).send({
+      message: "User info updated successfully",
+      data: {
+        user,
+      },
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in updating user info",
+      error: error.message,
+    });
+  }
+};
+
 module.exports = {
   AddUser,
   loginUser,
@@ -198,4 +222,5 @@ module.exports = {
   updateUserRole,
   deleteUser,
   logoutUser,
+  updateUserInfo,
 };
