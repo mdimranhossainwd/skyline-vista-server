@@ -81,7 +81,36 @@ const getAgentStatics = async (req, res) => {
   }
 };
 
+// For User Controller
+const getUserStatics = async (req, res) => {
+  try {
+    const userEmail = req.query.email;
+    const bookings = await Payment.find({ email: userEmail });
+    console.log(bookings);
+
+    const totalSpent = bookings.reduce(
+      (sum, booking) => sum + booking.totalPrice,
+      0
+    );
+    const chartData = bookings.map((booking) => {
+      const created_at = booking?.room?.createdAt || booking?.room?.created_at;
+      const dateObj = new Date(created_at);
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1;
+      return [`${day}/${month}`, booking?.totalPrice];
+    });
+    res.send({
+      totalSpent,
+      totalBookings: bookings.length,
+      chartData,
+    });
+  } catch (error) {
+    res.status(400).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getStatics,
   getAgentStatics,
+  getUserStatics,
 };
