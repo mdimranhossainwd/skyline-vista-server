@@ -10,7 +10,7 @@ const wishlistRoute = require("./routes/wishlistRoute");
 const userRoute = require("./routes/userRoute");
 const paymentRoute = require("./routes/paymentRoute");
 const offerRoute = require("./routes/offerRoute");
-const authMiddleware = require("./middlewares/authMiddlewares");
+const staticRoute = require("./routes/staticRoute");
 
 const coreOptions = {
   origin: ["http://localhost:5173"],
