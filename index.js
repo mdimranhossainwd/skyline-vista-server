@@ -30,6 +30,7 @@ app.use("/api/rooms", wishlistRoute);
 app.use("/api/rooms", userRoute);
 app.use("/api/rooms", paymentRoute);
 app.use("/api/rooms", offerRoute);
+app.use("/api/rooms", staticRoute);
 
 app.listen(process.env.SKYLINE_VISTA_PORT, () => {
   console.log(`Server running on port ${process.env.SKYLINE_VISTA_PORT}`);

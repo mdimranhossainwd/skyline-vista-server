@@ -10,7 +10,7 @@ const getStatics = async (req, res) => {
     const totalRooms = await Room.countDocuments();
     const bookingDetails = await Payment.find(
       {},
-      { date: 1, totalPrice: 1 }
+      { room: 1, totalPrice: 1 }
     ).lean();
     console.log(bookingDetails);
 
@@ -18,13 +18,28 @@ const getStatics = async (req, res) => {
       (sum, booking) => sum + booking.totalPrice,
       0
     );
+
+    const chartData = bookingDetails.map((booking) => {
+      const createdAt = booking?.room?.created_at;
+      const dateObj = new Date(createdAt);
+
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1;
+
+      return [`${day}/${month}`, booking?.totalPrice];
+    });
+
+    chartData.unshift(["Date", "Total Price"]);
+
     console.log(totalPrice);
+    console.log(chartData);
 
     res.json({
       totalUsers,
       totalRooms,
       totalBookings: bookingDetails.length,
       totalPrice,
+      chartData,
     });
   } catch (error) {
     console.log(error);
