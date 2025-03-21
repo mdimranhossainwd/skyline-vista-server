@@ -4,6 +4,7 @@ const Payment = require("../models/paymentModel");
 const Room = require("../models/roomModel");
 const User = require("../models/userModel");
 
+// For Admin Controller
 const getStatics = async (req, res) => {
   try {
     const totalUsers = await User.countDocuments();
@@ -47,6 +48,40 @@ const getStatics = async (req, res) => {
   }
 };
 
+// For Agent Controller
+const getAgentStatics = async (req, res) => {
+  try {
+    const agentEmail = req.query.email;
+    const totalRoom = await Room.find({ email: agentEmail });
+    const totalRoomCount = totalRoom.length;
+    const bookings = await Payment.find({ "room.email": agentEmail });
+
+    const totalRevenue = bookings.reduce(
+      (sum, booking) => sum + booking.totalPrice,
+      0
+    );
+
+    const chartData = bookings.map((booking) => {
+      const created_at = booking?.room?.createdAt;
+      const dateObj = new Date(created_at);
+      const day = dateObj.getDate();
+      const month = dateObj.getMonth() + 1;
+      return [`${day}/${month}`, booking?.totalPrice];
+    });
+
+    res.send({
+      totalRoomCount,
+      totalRevenue,
+      totalBookings: bookings.length,
+      chartData,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getStatics,
+  getAgentStatics,
 };
