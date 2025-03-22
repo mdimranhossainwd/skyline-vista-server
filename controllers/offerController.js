@@ -57,6 +57,26 @@ const GetOfferRoomUser = async (req, res) => {
   }
 };
 
+const GetAgentOwnOfferRoom = async (req, res) => {
+  try {
+    const agentEmail = req.query.email;
+    if (!agentEmail) {
+      return res.status(404).send("Agent Email Not Found");
+    }
+    const offersRoom = await Offer.find({ "offer.email": agentEmail });
+    res.status(200).send({
+      status: true,
+      messge: "Agent Offer Room fetch successfully",
+      data: offersRoom,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in fetching data",
+      error: error,
+    });
+  }
+};
+
 const GetAllOfferRoom = async (req, res) => {
   try {
     const offers = await Offer.find();
@@ -78,7 +98,7 @@ const UpdateOfferStatus = async (req, res) => {
   try {
     const offer = await Offer.findByIdAndUpdate(
       req.params.id,
-      { room_status: req.body.room_status },
+      { offer_status: req.body.offer_status },
       {
         new: true,
       }
@@ -105,4 +125,5 @@ module.exports = {
   GetAllOfferRoom,
   UpdateOfferStatus,
   GetOfferRoomUser,
+  GetAgentOwnOfferRoom,
 };
