@@ -70,6 +70,20 @@ const GetRoomPayments = async (req, res) => {
   }
 };
 
+const GetAllRoomPayments = async (req, res) => {
+  try {
+    const payments = await Payment.find();
+    res.status(200).send({
+      success: true,
+      message: "Payments fetched successfully",
+      data: payments,
+    });
+  } catch (error) {
+    console.log("Error", error);
+    res.status(400).send({ message: "Error fetching payments", error: error });
+  }
+};
+
 const GetRoomPaymentsCompleted = async (req, res) => {
   const { room_status } = req.query;
   try {
@@ -86,4 +100,5 @@ module.exports = {
   StripeAddPayment,
   GetRoomPayments,
   GetRoomPaymentsCompleted,
+  GetAllRoomPayments,
 };
