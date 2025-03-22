@@ -2,7 +2,15 @@ const Offer = require("../models/offerModel");
 const Room = require("../models/roomModel");
 
 const AddToOffer = async (req, res) => {
-  const { rooms_id, amount } = req.body;
+  const {
+    rooms_id,
+    offerId,
+    offer_amount,
+    offer_date,
+    name,
+    offer_status,
+    email,
+  } = req.body;
   try {
     const offer = await Room.findById(rooms_id);
     if (!offer) {
@@ -11,7 +19,12 @@ const AddToOffer = async (req, res) => {
 
     const newOffer = new Offer({
       offer,
-      amount,
+      offerId,
+      offer_amount,
+      offer_date,
+      email,
+      name,
+      offer_status,
     });
     await newOffer.save();
     res.status(200).send({

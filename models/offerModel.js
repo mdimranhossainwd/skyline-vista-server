@@ -4,18 +4,17 @@ const offerSchema = new mongoose.Schema({
   offer: {
     type: Object,
   },
-  room_status: {
+  offer_status: {
     type: String,
-    default: "Pending",
+    default: "Requested",
   },
+  offer_amount: { type: Number },
   offer_date: {
     type: Date,
     default: Date.now,
   },
-  amount: {
-    type: Number,
-    required: true,
-  },
+  email: { type: String },
+  name: { type: String },
 });
 
 const Offer = new mongoose.model("Offer", offerSchema);
