@@ -41,6 +41,22 @@ const AddToOffer = async (req, res) => {
   }
 };
 
+const GetOfferRoomUser = async (req, res) => {
+  const email = req.query.email;
+  try {
+    const userOfferRoom = await Offer.find({ email: email });
+    res.status(200).send({
+      message: "User Offer Romm fetched Successfully",
+      data: userOfferRoom,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in fetching offers",
+      error: err,
+    });
+  }
+};
+
 const GetAllOfferRoom = async (req, res) => {
   try {
     const offers = await Offer.find();
@@ -84,4 +100,9 @@ const UpdateOfferStatus = async (req, res) => {
   }
 };
 
-module.exports = { AddToOffer, GetAllOfferRoom, UpdateOfferStatus };
+module.exports = {
+  AddToOffer,
+  GetAllOfferRoom,
+  UpdateOfferStatus,
+  GetOfferRoomUser,
+};
