@@ -6,6 +6,7 @@ const {
   UpdateOfferStatus,
   GetOfferRoomUser,
   GetAgentOwnOfferRoom,
+  DeleteOfferRoom,
 } = require("../controllers/offerController");
 
 router.post("/add-to-offer", AddToOffer);

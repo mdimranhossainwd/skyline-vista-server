@@ -120,10 +120,31 @@ const UpdateOfferStatus = async (req, res) => {
   }
 };
 
+const DeleteOfferRoom = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const itemId = await Offer.findByIdAndDelete(id);
+    if (!itemId) {
+      res.status(404).send("Your Offer Data Not Found");
+    }
+    res.status(200).send({
+      success: true,
+      message: "Offer Deleted Successfully",
+      data: itemId,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Error in deleteing data",
+      error: error,
+    });
+  }
+};
+
 module.exports = {
   AddToOffer,
   GetAllOfferRoom,
   UpdateOfferStatus,
   GetOfferRoomUser,
   GetAgentOwnOfferRoom,
+  DeleteOfferRoom,
 };
