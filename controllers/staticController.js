@@ -21,7 +21,7 @@ const getStatics = async (req, res) => {
     );
 
     const chartData = bookingDetails.map((booking) => {
-      const createdAt = booking?.room?.created_at;
+      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
       const dateObj = new Date(createdAt);
 
       const day = dateObj.getDate();
@@ -62,12 +62,16 @@ const getAgentStatics = async (req, res) => {
     );
 
     const chartData = bookings.map((booking) => {
-      const created_at = booking?.room?.createdAt;
-      const dateObj = new Date(created_at);
+      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
+      const dateObj = new Date(createdAt);
       const day = dateObj.getDate();
       const month = dateObj.getMonth() + 1;
       return [`${day}/${month}`, booking?.totalPrice];
     });
+
+    chartData.unshift(["Date", "Total Price"]);
+
+    console.log(chartData);
 
     res.send({
       totalRoomCount,
@@ -93,12 +97,17 @@ const getUserStatics = async (req, res) => {
       0
     );
     const chartData = bookings.map((booking) => {
-      const created_at = booking?.room?.createdAt || booking?.room?.created_at;
-      const dateObj = new Date(created_at);
+      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
+      const dateObj = new Date(createdAt);
       const day = dateObj.getDate();
       const month = dateObj.getMonth() + 1;
       return [`${day}/${month}`, booking?.totalPrice];
     });
+
+    chartData.unshift(["Date", "Total Price"]);
+
+    console.log(chartData);
+
     res.send({
       totalSpent,
       totalBookings: bookings.length,
