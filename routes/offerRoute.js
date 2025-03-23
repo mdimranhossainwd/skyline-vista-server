@@ -14,5 +14,5 @@ router.get("/get-all-offer", GetAllOfferRoom);
 router.get("/get-offer-room", GetOfferRoomUser);
 router.get("/get-agent-own-offer", GetAgentOwnOfferRoom);
 router.patch("/update-offer-status/:id", UpdateOfferStatus);
-
+router.delete("/delete-offer-room/:id", DeleteOfferRoom);
 module.exports = router;
