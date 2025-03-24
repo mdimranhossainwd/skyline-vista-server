@@ -34,7 +34,7 @@ const getStatics = async (req, res) => {
     chartData.unshift(["Date", "Total Price"]);
 
     // console.log(totalPrice);
-    // console.log(chartData);
+    console.log(chartData);
 
     res.json({
       totalUsers,
@@ -56,8 +56,8 @@ const getAgentStatics = async (req, res) => {
     const totalRoom = await Room.find({ email: agentEmail });
     const totalRoomCount = totalRoom.length;
     const bookings = await Payment.find({ "room.email": agentEmail });
-    const totalOfferBooked = await Offer.find({ email: agentEmail });
-    const totalOfferCount = totalOfferBooked.length;
+    const totalOfferCount = bookings.length;
+    console.log(totalOfferCount);
 
     const totalRevenue = bookings.reduce(
       (sum, booking) => sum + booking.totalPrice,
@@ -65,7 +65,11 @@ const getAgentStatics = async (req, res) => {
     );
 
     const chartData = bookings.map((booking) => {
-      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
+      const createdAt =
+        booking?.room?.createdAt ||
+        booking?.room?.created_at ||
+        booking?.createdAt ||
+        booking?.created_at;
       const dateObj = new Date(createdAt);
       const day = dateObj.getDate();
       const month = dateObj.getMonth() + 1;
@@ -73,8 +77,6 @@ const getAgentStatics = async (req, res) => {
     });
 
     chartData.unshift(["Date", "Total Price"]);
-
-    // console.log(chartData);
 
     res.send({
       totalRoomCount,
@@ -94,7 +96,6 @@ const getUserStatics = async (req, res) => {
   try {
     const userEmail = req.query.email;
     const bookings = await Payment.find({ email: userEmail });
-    // console.log(bookings);
     const totalOfferBooked = await Offer.find({ email: userEmail });
     const totalOfferCount = totalOfferBooked.length;
     const userTimes = await User.findOne({ email: userEmail });
@@ -104,7 +105,11 @@ const getUserStatics = async (req, res) => {
       0
     );
     const chartData = bookings.map((booking) => {
-      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
+      const createdAt =
+        booking?.room?.createdAt ||
+        booking?.room?.created_at ||
+        booking?.createdAt ||
+        booking?.created_at;
       const dateObj = new Date(createdAt);
       const day = dateObj.getDate();
       const month = dateObj.getMonth() + 1;
@@ -112,7 +117,6 @@ const getUserStatics = async (req, res) => {
     });
 
     chartData.unshift(["Date", "Total Price"]);
-
     // console.log(chartData);
 
     res.send({
