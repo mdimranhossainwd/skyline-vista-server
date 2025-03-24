@@ -3,6 +3,7 @@ const Statics = require("../models/staticsModel");
 const Payment = require("../models/paymentModel");
 const Room = require("../models/roomModel");
 const User = require("../models/userModel");
+const Offer = require("../models/offerModel");
 
 // For Admin Controller
 const getStatics = async (req, res) => {
@@ -13,7 +14,7 @@ const getStatics = async (req, res) => {
       {},
       { room: 1, totalPrice: 1 }
     ).lean();
-    console.log(bookingDetails);
+    // console.log(bookingDetails);
 
     const totalPrice = bookingDetails.reduce(
       (sum, booking) => sum + booking.totalPrice,
@@ -32,8 +33,8 @@ const getStatics = async (req, res) => {
 
     chartData.unshift(["Date", "Total Price"]);
 
-    console.log(totalPrice);
-    console.log(chartData);
+    // console.log(totalPrice);
+    // console.log(chartData);
 
     res.json({
       totalUsers,
@@ -55,6 +56,8 @@ const getAgentStatics = async (req, res) => {
     const totalRoom = await Room.find({ email: agentEmail });
     const totalRoomCount = totalRoom.length;
     const bookings = await Payment.find({ "room.email": agentEmail });
+    const totalOfferBooked = await Offer.find({ email: agentEmail });
+    const totalOfferCount = totalOfferBooked.length;
 
     const totalRevenue = bookings.reduce(
       (sum, booking) => sum + booking.totalPrice,
@@ -71,11 +74,12 @@ const getAgentStatics = async (req, res) => {
 
     chartData.unshift(["Date", "Total Price"]);
 
-    console.log(chartData);
+    // console.log(chartData);
 
     res.send({
       totalRoomCount,
       totalRevenue,
+      totalOfferCount,
       totalBookings: bookings.length,
       chartData,
     });
@@ -90,8 +94,11 @@ const getUserStatics = async (req, res) => {
   try {
     const userEmail = req.query.email;
     const bookings = await Payment.find({ email: userEmail });
-    console.log(bookings);
-
+    // console.log(bookings);
+    const totalOfferBooked = await Offer.find({ email: userEmail });
+    const totalOfferCount = totalOfferBooked.length;
+    const userTimes = await User.findOne({ email: userEmail });
+    const userCreateAt = userTimes.createdAt;
     const totalSpent = bookings.reduce(
       (sum, booking) => sum + booking.totalPrice,
       0
@@ -106,10 +113,12 @@ const getUserStatics = async (req, res) => {
 
     chartData.unshift(["Date", "Total Price"]);
 
-    console.log(chartData);
+    // console.log(chartData);
 
     res.send({
       totalSpent,
+      totalOfferCount,
+      userCreateAt,
       totalBookings: bookings.length,
       chartData,
     });

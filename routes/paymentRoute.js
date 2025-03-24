@@ -6,9 +6,11 @@ const {
   GetRoomPayments,
   GetRoomPaymentsCompleted,
   GetAllRoomPayments,
+  OfferToPayment,
 } = require("../controllers/paymentController");
 
 router.post("/add-to-payment", AddToPayment);
+router.post("/offer-add-to-payment", OfferToPayment);
 router.post("/create-payment-intent", StripeAddPayment);
 router.get("/get-room-payments", GetRoomPayments);
 router.get("/get-brought-room", GetRoomPaymentsCompleted);

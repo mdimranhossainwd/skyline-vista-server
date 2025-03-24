@@ -8,7 +8,7 @@ const offerSchema = new mongoose.Schema({
     type: String,
     default: "Requested",
   },
-  offer_amount: { type: Number },
+  amount: { type: Number },
   offer_date: {
     type: Date,
     default: Date.now,

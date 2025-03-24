@@ -59,6 +59,41 @@ const AddToPayment = async (req, res) => {
   }
 };
 
+const OfferToPayment = async (req, res) => {
+  try {
+    const { roomId, email, name, transID, totalPrice } = req.body;
+    // Find the room details
+    const room = await Offer.findById(roomId);
+
+    if (!room) {
+      return res.status(404).json({ message: "Room not found" });
+    }
+
+    // Create a new payment entry
+    const newPayment = new Payment({
+      room,
+      email,
+      name,
+      transID,
+      totalPrice,
+      paymentDate: new Date(),
+    });
+
+    await newPayment.save();
+
+    res.status(201).json({
+      success: true,
+      message: "Payment successful, room booked!",
+      data: newPayment,
+    });
+  } catch (error) {
+    res.status(400).send({
+      message: "Server error",
+      error,
+    });
+  }
+};
+
 const GetRoomPayments = async (req, res) => {
   const { email } = req.query;
   try {
@@ -100,5 +135,6 @@ module.exports = {
   StripeAddPayment,
   GetRoomPayments,
   GetRoomPaymentsCompleted,
+  OfferToPayment,
   GetAllRoomPayments,
 };
