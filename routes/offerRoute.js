@@ -8,11 +8,25 @@ const {
   GetAgentOwnOfferRoom,
   DeleteOfferRoom,
 } = require("../controllers/offerController");
+const {
+  authMiddleware,
+  agentAuthMiddleware,
+} = require("../middlewares/authMiddlewares");
 
 router.post("/add-to-offer", AddToOffer);
 router.get("/get-all-offer", GetAllOfferRoom);
 router.get("/get-offer-room", GetOfferRoomUser);
-router.get("/get-agent-own-offer", GetAgentOwnOfferRoom);
-router.patch("/update-offer-status/:id", UpdateOfferStatus);
+router.get(
+  "/get-agent-own-offer",
+  authMiddleware,
+  agentAuthMiddleware,
+  GetAgentOwnOfferRoom
+);
+router.patch(
+  "/update-offer-status/:id",
+  authMiddleware,
+  agentAuthMiddleware,
+  UpdateOfferStatus
+);
 router.delete("/delete-offer-room/:id", DeleteOfferRoom);
 module.exports = router;

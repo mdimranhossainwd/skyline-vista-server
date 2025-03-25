@@ -5,10 +5,19 @@ const {
   getAgentStatics,
   getUserStatics,
 } = require("../controllers/staticController");
-const authMiddleware = require("../middlewares/authMiddlewares");
+const {
+  authMiddleware,
+  adminAuthMiddleware,
+  agentAuthMiddleware,
+} = require("../middlewares/authMiddlewares");
 
-router.get("/get-statics", getStatics, authMiddleware);
-router.get("/get-agent-statics", getAgentStatics, authMiddleware);
-router.get("/get-user-statics", getUserStatics, authMiddleware);
+router.get("/get-statics", authMiddleware, adminAuthMiddleware, getStatics);
+router.get(
+  "/get-agent-statics",
+  authMiddleware,
+  agentAuthMiddleware,
+  getAgentStatics
+);
+router.get("/get-user-statics", getUserStatics);
 
 module.exports = router;

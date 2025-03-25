@@ -131,7 +131,7 @@ const getAllUser = async (req, res) => {
     const allUsers = await User.find();
     res.status(200).send({
       success: true,
-      message: "Rooms fetched successfully",
+      message: "Users fetched successfully",
       data: allUsers,
     });
   } catch (error) {

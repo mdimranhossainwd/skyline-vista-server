@@ -12,7 +12,7 @@ const getStatics = async (req, res) => {
     const totalRooms = await Room.countDocuments();
     const bookingDetails = await Payment.find(
       {},
-      { room: 1, totalPrice: 1 }
+      { room: 1, totalPrice: 1, createdAt: 1, paymentDate: 1 }
     ).lean();
     // console.log(bookingDetails);
 
@@ -22,7 +22,12 @@ const getStatics = async (req, res) => {
     );
 
     const chartData = bookingDetails.map((booking) => {
-      const createdAt = booking?.room?.createdAt || booking?.room?.created_at;
+      const createdAt =
+        booking?.room?.createdAt ||
+        booking?.room?.created_at ||
+        booking?.createdAt ||
+        booking?.created_at ||
+        booking?.paymentDate;
       const dateObj = new Date(createdAt);
 
       const day = dateObj.getDate();
@@ -55,7 +60,7 @@ const getAgentStatics = async (req, res) => {
     const agentEmail = req.query.email;
     const totalRoom = await Room.find({ email: agentEmail });
     const totalRoomCount = totalRoom.length;
-    const bookings = await Payment.find({ "room.email": agentEmail });
+    const bookings = await Payment.find({ "room.offer.email": agentEmail });
     const totalOfferCount = bookings.length;
     console.log(totalOfferCount);
 
