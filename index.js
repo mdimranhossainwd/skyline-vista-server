@@ -13,15 +13,15 @@ const offerRoute = require("./routes/offerRoute");
 const staticRoute = require("./routes/staticRoute");
 
 const coreOptions = {
-  origin: ["http://localhost:5173"],
+  origin: ["https://skyline-vista.web.app", "http://localhost:5173"],
   credentials: true,
   optionSuccessStatus: 200,
 };
 const app = express();
 dotenv.config();
 connectDB();
-app.use(express.json());
 app.use(cors(coreOptions));
+app.use(express.json());
 app.use(cookieParser());
 
 app.use("/api/rooms", roomRoutes);

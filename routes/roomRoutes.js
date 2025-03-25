@@ -19,11 +19,6 @@ router.get("/get-rooms", GetRooms);
 router.get("/get-room/:id", GetRoomById);
 router.get("/get-room-by-email", GetRoomByUserEmail);
 router.put("/update-room/:id", authMiddleware, agentAuthMiddleware, UpdateRoom);
-router.patch(
-  "/update-room-status/:id",
-  authMiddleware,
-  agentAuthMiddleware,
-  UpdateRoomStatus
-);
+router.patch("/update-room-status/:id", UpdateRoomStatus);
 router.delete("/delete-room/:id", DeleteRoom);
 module.exports = router;

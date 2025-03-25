@@ -70,6 +70,8 @@ const loginUser = async (req, res) => {
       secure: process.env.NODE_ENV === "production", // Secure in production
       sameSite: "Strict",
       maxAge: 24 * 60 * 60 * 1000, // 1 day
+      secure: true,
+      sameSite: "None",
     });
 
     res.status(200).send({

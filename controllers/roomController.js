@@ -130,7 +130,7 @@ const UpdateRoomStatus = async (req, res) => {
   try {
     const room = await Room.findByIdAndUpdate(
       req.params.id,
-      { status: req.body.status },
+      { room_status: req.body.room_status },
       {
         new: true,
       }
